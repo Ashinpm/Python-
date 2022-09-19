@@ -1,0 +1,42 @@
+import numpy as np
+import matplotlib.pyplot as plt
+time = np.arange(0, 0.05, 0.0005)
+dc_offset = 2
+fm = int(input("Enter the message signal frequency:"))
+signal=dc_offset+np.sin(2*np.pi*fm*time)
+fs = 15 * fm
+st = np.arange(0, 0.05, 1 / fs)
+ss = dc_offset + np.sin(2 * np.pi * fm * st)
+plt.title("sampled signal")
+plt.subplot(2, 1, 1)
+plt.plot(st, ss, "r*")
+plt.subplot(2, 1, 2)
+plt.plot(st, ss, "b*")
+plt.show()
+L=8
+smin=round(min(signal))
+smax=round(max(signal))
+ql=np.linspace(smin,smax,L)
+print(ql)
+qlevel=[]
+for i in np.linspace(0.725,3,1000):
+    for j in ql:
+        if i<=j:
+            qlevel.append(j)
+            break
+plt.title("quantizer")
+plt.subplot(3,1,1)
+plt.plot(np.linspace(0.725,3,1000),qlevel)
+plt.show()
+qs=[]
+for i in ss:
+    for j in ql:
+        if i<=j:
+            qs.append(j)
+            break
+plt.subplot(4,1,1)
+plt.plot(st,qs,"r*")
+plt.show()
+plt.subplot(5,1,1)
+plt.plot(st,qs,"b*-")
+plt.show()
