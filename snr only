@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+time = np.arange(0, 0.05, 0.0005)
+dc_offset = 2
+fm = int(input("Enter the message signal frequency:"))
+signal=dc_offset+np.sin(2*np.pi*fm*time)
+fs = 15 * fm
+signal = np.sin(2 * np.pi * fs * time) + dc_offset
+st = np.arange(0, 0.05, 1 / fs)
+ss = dc_offset + np.sin(2 * np.pi * fm * st)
+L=8
+smin=round(min(signal))
+smax=round(max(signal))
+ql=np.linspace(smin,smax,L)
+qs=[]
+for i in ss:
+    for j in ql:
+        if i<=j:
+            qs.append(j)
+            break
+count=0
+qlm={}
+for i in ql:
+    qlm[i]=qlm.get(i,count)
+    count+=1
+es=[]
+for k in qs:
+    es.append(qlm[k])
+plt.subplot(6,1,1)
+plt.plot(st,es,"b",st,es,"g*")
+plt.title("Encoded signal")
+plt.show()
